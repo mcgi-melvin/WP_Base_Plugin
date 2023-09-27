@@ -57,8 +57,7 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 				set_transient( $this->cache_key, $remote, DAY_IN_SECONDS );
 			}
 
-            return wp_json_encode( wp_remote_retrieve_body( $remote ) );
-
+            return json_encode( wp_remote_retrieve_body( $remote ) );
 		}
 
 
@@ -118,9 +117,9 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 
 			if(
 				$remote
-				&& version_compare( $this->version, (float) $remote->version, '<' )
-				&& version_compare( (float) $remote->wp_version_requires, get_bloginfo( 'version' ), '<=' )
-				&& version_compare( (float) $remote->php_requires, PHP_VERSION, '<' )
+				&& version_compare( $this->version, floatval( $remote->version ), '<' )
+				&& version_compare( floatval( $remote->wp_version_requires ), get_bloginfo( 'version' ), '<=' )
+				&& version_compare( floatval( $remote->php_requires ), PHP_VERSION, '<' )
 			) {
 				$res = new stdClass();
 				$res->slug = $this->plugin_slug;
