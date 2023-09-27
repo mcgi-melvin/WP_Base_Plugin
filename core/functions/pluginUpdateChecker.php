@@ -2,6 +2,8 @@
 
 namespace BasePlugin\core\functions;
 
+use stdClass;
+
 if( ! class_exists( 'pluginUpdateChecker' ) ) {
 
 	class pluginUpdateChecker {

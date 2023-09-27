@@ -12,5 +12,7 @@
             "email": "melvinlomibao@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "ext-json": "*"
+    }
 }
