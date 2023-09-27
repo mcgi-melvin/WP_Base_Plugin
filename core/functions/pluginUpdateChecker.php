@@ -21,13 +21,12 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 
 			$this->plugin_slug = plugin_basename( __DIR__ );
 			$this->version = '1.0';
-			$this->cache_key = 'ez_plugins';
+			$this->cache_key = 'ez_plugins_' . wp_unique_id();
 			$this->cache_allowed = false;
 
 			add_filter( 'plugins_api', array( $this, 'info' ), 20, 3 );
 			add_filter( 'site_transient_update_plugins', array( $this, 'update' ) );
 			add_action( 'upgrader_process_complete', array( $this, 'purge' ), 10, 2 );
-
 		}
 
 		public function request(){
@@ -70,7 +69,7 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 				return $res;
 			}
 
-			$remote = $this->request( $this->plugin_id );
+			$remote = $this->request();
 
 			if( ! $remote ) {
 				return $res;
@@ -80,7 +79,7 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 
 			$res->name = $remote->name;
 			$res->slug = $remote->slug;
-			$res->version = $remote->version;
+			$res->version = (float) $remote->version;
 			$res->tested = $remote->wp_version_tested;
 			$res->requires = $remote->wp_version_requires;
 			$res->author = $remote->author;
