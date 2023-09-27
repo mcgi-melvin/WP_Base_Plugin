@@ -57,7 +57,7 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 				set_transient( $this->cache_key, $remote, DAY_IN_SECONDS );
 			}
 
-            return json_encode( wp_remote_retrieve_body( $remote ) );
+            return json_decode( wp_remote_retrieve_body( $remote ) );
 		}
 
 
