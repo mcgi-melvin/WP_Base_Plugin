@@ -38,7 +38,7 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 			if( false === $remote || ! $this->cache_allowed ) {
 
 				$remote = wp_remote_get(
-					"https://melvinlomibao.com/wp-admin/admin-ajax.php?action=get_latest_plugin_info&{$this->plugin_id}",
+					"https://melvinlomibao.com/wp-admin/admin-ajax.php?action=get_latest_plugin_info&id{$this->plugin_id}",
 					array(
 						'timeout' => 10,
 						'headers' => array(
@@ -56,12 +56,9 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 				}
 
 				set_transient( $this->cache_key, $remote, DAY_IN_SECONDS );
-
 			}
 
-			$remote = json_decode( wp_remote_retrieve_body( $remote ) );
-
-			return $remote;
+            return wp_json_encode( wp_remote_retrieve_body( $remote ) );
 
 		}
 
@@ -118,13 +115,13 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 				return $transient;
 			}
 
-			$remote = $this->request( $this->plugin_id );
+			$remote = $this->request();
 
 			if(
 				$remote
-				&& version_compare( $this->version, $remote->version, '<' )
-				&& version_compare( $remote->wp_version_requires, get_bloginfo( 'version' ), '<=' )
-				&& version_compare( $remote->php_requires, PHP_VERSION, '<' )
+				&& version_compare( $this->version, (float) $remote->version, '<' )
+				&& version_compare( (float) $remote->wp_version_requires, get_bloginfo( 'version' ), '<=' )
+				&& version_compare( (float) $remote->php_requires, PHP_VERSION, '<' )
 			) {
 				$res = new stdClass();
 				$res->slug = $this->plugin_slug;
