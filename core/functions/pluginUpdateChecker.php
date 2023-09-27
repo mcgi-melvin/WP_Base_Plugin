@@ -80,8 +80,8 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 			$res->name = $remote->name;
 			$res->slug = $remote->slug;
 			$res->version = (float) $remote->version;
-			$res->tested = $remote->wp_version_tested;
-			$res->requires = $remote->wp_version_requires;
+			$res->tested = (float) $remote->wp_version_tested;
+			$res->requires = (float) $remote->wp_version_requires;
 			$res->author = $remote->author;
 			$res->author_profile = $remote->author_profile;
 			$res->download_link = $remote->plugin_file;
