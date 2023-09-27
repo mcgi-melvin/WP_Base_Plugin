@@ -1,5 +1,4 @@
 <?php
-
 namespace BasePlugin\core\functions;
 
 use stdClass;

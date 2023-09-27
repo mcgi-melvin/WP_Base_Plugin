@@ -12,6 +12,9 @@
             "email": "melvinlomibao@gmail.com"
         }
     ],
+    "config": {
+        "disable-tls": true
+    },
     "require": {
         "ext-json": "*"
     }
