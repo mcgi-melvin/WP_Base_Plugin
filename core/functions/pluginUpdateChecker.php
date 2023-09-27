@@ -4,7 +4,7 @@ namespace BasePlugin\core\functions;
 
 if( ! class_exists( 'pluginUpdateChecker' ) ) {
 
-	class pluginUpdateChecker{
+	class pluginUpdateChecker {
 
 		public $plugin_slug;
 		public $version;
