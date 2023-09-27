@@ -1,0 +1,16 @@
+{
+    "name": "melvx/base-plugin",
+    "description": "Base files for my plugins",
+    "autoload": {
+        "psr-4": {
+            "BasePlugin\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "mcgi-melvin",
+            "email": "melvinlomibao@gmail.com"
+        }
+    ],
+    "require": {}
+}

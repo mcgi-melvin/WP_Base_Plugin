@@ -1,4 +1,7 @@
 <?php
+
+namespace BasePlugin\core\functions;
+
 if( ! class_exists( 'pluginUpdateChecker' ) ) {
 
 	class pluginUpdateChecker{
