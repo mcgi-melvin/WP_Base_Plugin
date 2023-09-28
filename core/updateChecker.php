@@ -41,7 +41,7 @@ if( ! class_exists('BasePlugin\core\updateChecker') ) {
 			if( false === $remote || ! $this->cache_allowed ) {
 
 				$remote = wp_remote_get(
-					"https://melvinlomibao.com/wp-admin/admin-ajax.php?action=get_latest_plugin_info&id{$this->plugin_id}",
+					"https://melvinlomibao.com/wp-admin/admin-ajax.php?action=get_latest_plugin_info&id={$this->plugin_id}",
 					array(
 						'timeout' => 10,
 						'headers' => array(
