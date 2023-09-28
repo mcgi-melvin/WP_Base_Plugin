@@ -19,7 +19,6 @@ if( ! class_exists('BasePlugin\core\updateChecker') ) {
 		private $plugin_id;
 
 		public function __construct() {
-
 			$this->cache_key = 'ez_plugins_' . wp_unique_id();
 			$this->cache_allowed = true;
 		}
@@ -64,7 +63,6 @@ if( ! class_exists('BasePlugin\core\updateChecker') ) {
 
             return json_decode( wp_remote_retrieve_body( $remote ) );
 		}
-
 
 		function info( $res, $action, $args ) {
 			if( 'plugin_information' !== $action ) {
@@ -130,11 +128,9 @@ if( ! class_exists('BasePlugin\core\updateChecker') ) {
                     $res->slug = $this->plugin_slug;
                     $res->plugin = $this->plugin;
                     $res->new_version = $remote->version;
-                    $res->tested = $remote->wp_version_tested;
+                    $res->tested = (float) $remote->wp_version_tested;
                     $res->package = $remote->plugin_file;
-
                     $transient->response[ $res->plugin ] = $res;
-
             }
 
 			return $transient;
