@@ -1,33 +1,39 @@
 <?php
-namespace BasePlugin\core\functions;
+namespace BasePlugin\core;
 
 use stdClass;
 
-if( ! class_exists( 'pluginUpdateChecker' ) ) {
+if( ! class_exists('BasePlugin\core\updateChecker') ) {
 
-	class pluginUpdateChecker {
+	class updateChecker {
 
+        public $plugin;
 		public $plugin_slug;
 		public $version;
 		public $cache_key;
 		public $cache_allowed;
+
+        /**
+         * @var int $plugin_id
+         */
 		private $plugin_id;
 
-		public function __construct( $plugin_id = null ) {
+		public function __construct() {
 
-			if( !$plugin_id ) return false;
-
-			$this->plugin_id = $plugin_id;
-
-			$this->plugin_slug = plugin_basename( __DIR__ );
-			$this->version = '1.0';
 			$this->cache_key = 'ez_plugins_' . wp_unique_id();
-			$this->cache_allowed = false;
-
-			add_filter( 'plugins_api', array( $this, 'info' ), 20, 3 );
-			add_filter( 'site_transient_update_plugins', array( $this, 'update' ) );
-			add_action( 'upgrader_process_complete', array( $this, 'purge' ), 10, 2 );
+			$this->cache_allowed = true;
 		}
+
+        public function config( array $config = [] ): updateChecker
+        {
+            foreach ( $config as $key => $val ) {
+                if( property_exists( $this, $key ) ) {
+                    $this->{$key} = $val;
+                }
+            }
+
+            return $this;
+        }
 
 		public function request(){
 
@@ -120,16 +126,16 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 				&& version_compare( floatval( $remote->wp_version_requires ), get_bloginfo( 'version' ), '<=' )
 				&& version_compare( floatval( $remote->php_requires ), PHP_VERSION, '<' )
 			) {
-				$res = new stdClass();
-				$res->slug = $this->plugin_slug;
-				$res->plugin = plugin_basename( __FILE__ );
-				$res->new_version = $remote->version;
-				$res->tested = $remote->wp_version_tested;
-				$res->package = $remote->plugin_file;
+                    $res = new stdClass();
+                    $res->slug = $this->plugin_slug;
+                    $res->plugin = $this->plugin;
+                    $res->new_version = $remote->version;
+                    $res->tested = $remote->wp_version_tested;
+                    $res->package = $remote->plugin_file;
 
-				$transient->response[ $res->plugin ] = $res;
+                    $transient->response[ $res->plugin ] = $res;
 
-	    }
+            }
 
 			return $transient;
 
@@ -148,6 +154,11 @@ if( ! class_exists( 'pluginUpdateChecker' ) ) {
 
 		}
 
-
+        public function run()
+        {
+            add_filter( 'plugins_api', array( $this, 'info' ), 20, 3 );
+            add_filter( 'site_transient_update_plugins', array( $this, 'update' ) );
+            add_action( 'upgrader_process_complete', array( $this, 'purge' ), 10, 2 );
+        }
 	}
 }
