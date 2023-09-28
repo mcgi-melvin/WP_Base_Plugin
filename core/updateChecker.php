@@ -20,7 +20,6 @@ if( ! class_exists('BasePlugin\core\updateChecker') ) {
 
 		public function __construct() {
 			$this->cache_key = 'ez_plugins_' . wp_unique_id();
-			$this->cache_allowed = true;
 		}
 
         public function config( array $config = [] ): updateChecker

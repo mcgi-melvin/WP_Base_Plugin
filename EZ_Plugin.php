@@ -20,6 +20,8 @@ if( !class_exists('BasePlugin\EZ_Plugin') ) {
 
         abstract function baseFile(): string;
 
+        abstract function enable_cache(): bool;
+
         public function __construct()
         {
             $this->updateChecker = new updateChecker();
@@ -31,7 +33,8 @@ if( !class_exists('BasePlugin\EZ_Plugin') ) {
                 'plugin' => $this->baseFile(),
                 'plugin_slug' => $this->slug(),
                 'plugin_id' => $this->id(),
-                'version' => $this->version()
+                'version' => $this->version(),
+                'cache_allowed' => $this->enable_cache()
             ])->run();
         }
     }
