@@ -12,6 +12,8 @@ if( !class_exists('BasePlugin\EZ_Plugin') ) {
          */
         private $updateChecker;
 
+        abstract function id(): int;
+
         abstract function slug(): string;
 
         abstract function version(): float;
@@ -28,6 +30,7 @@ if( !class_exists('BasePlugin\EZ_Plugin') ) {
             $this->updateChecker->config([
                 'plugin' => $this->baseFile(),
                 'plugin_slug' => $this->slug(),
+                'plugin_id' => $this->id(),
                 'version' => $this->version()
             ])->run();
         }
